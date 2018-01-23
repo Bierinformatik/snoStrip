@@ -38,7 +38,8 @@ scripts are located in the folder 'bin'.
 
 Please move into the snoStrip directory and start the configuration script by
 
-```cd bin/
+```
+cd bin/
 ./configure.sh
 ```
 
