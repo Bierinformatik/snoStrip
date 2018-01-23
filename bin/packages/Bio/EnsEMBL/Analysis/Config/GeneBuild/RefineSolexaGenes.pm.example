@@ -1,0 +1,106 @@
+# Bio::EnsEMBL::Analysis::Config::GeneBuild::RefineSolexaGenes;
+# 
+# Cared for by EnsEMBL (ensembl-dev@ebi.ac.uk)
+#
+# Copyright GRL & EBI
+#
+# You may distribute this module under the same terms as perl itself
+
+# POD documentation - main docs before the code
+
+
+package Bio::EnsEMBL::Analysis::Config::GeneBuild::RefineSolexaGenes;
+
+use strict;
+use vars qw( %Config );
+
+# Hash containing config info
+%Config = (
+
+         REFINESOLEXAGENES_CONFIG_BY_LOGIC => 
+           {
+            DEFAULT => {
+	    		# databases are defined as hash keys from Bio::EnsEMBL::Analysis::Config::Databases
+                        OUTPUT_DB => '',
+			INTRON_DB => '',
+			MODEL_DB  => '',
+			
+			# maximum number of times to loop when building all possible paths through the transcript
+			MAX_RECURSIONS => 100000,
+						
+			# analysis logic_name for the dna_align_features to fetch from the INTRON_DB
+			# If left blank all features will be fetched
+			LOGICNAME => [],
+			
+			# logic name of the gene models to fetch
+			MODEL_LN  => '',
+			
+			# penalty for removing a retined intron
+			RETAINED_INTRON_PENALTY => 2,
+			
+			# minimum size for an intron
+			MIN_INTRON_SIZE  => 30,   
+			
+			# biotype to give to single exon models if left blank single exons are ignored
+			SINGLE_EXON_MODEL => 'single_exon',
+		
+			# minimum single exon size (bp)
+			MIN_SINGLE_EXON => 1000,
+		
+			# minimum percentage of single exon length that is coding
+			SINGLE_EXON_CDS => 66,
+			
+			# Intron with most support determines the splice sites for an internal exon
+			# lower scoring introns with different splice sites are rejected
+			
+			STRICT_INTERNAL_SPLICE_SITES => 1,
+			
+			# In some species alternate splice sites for end exons seem to be common
+			STRICT_INTERNAL_END_EXON_SPLICE_SITES => 1,
+			
+			# biotypes to give gene models if left blank these models will not get written to the output database
+			# best score - model with most supporting intron features
+			BEST_SCORE => '', 
+			# all other possible models
+			OTHER_ISOFORMS => '',
+                        # max number of other models to make - blank = all 
+			OTHER_NUM      => '',
+			
+                        # max number of other models to process - blank = all 
+			MAX_NUM      => '1000',
+			
+			# biotype to label bad models ( otherwise they are not written )
+			BAD_MODELS     => '',
+                   },
+	    }
+	    
+);
+
+sub import {
+  my ($callpack) = caller(0); # Name of the calling package
+  my $pack = shift; # Need to move package off @_
+
+  # Get list of variables supplied, or else everything
+  my @vars = @_ ? @_ : keys( %Config );
+  return unless @vars;
+  
+  # Predeclare global variables in calling package
+  eval "package $callpack; use vars qw("
+    . join(' ', map { '$'.$_ } @vars) . ")";
+    die $@ if $@;
+
+
+    foreach (@vars) {
+	if ( defined $Config{$_} ) {
+            no strict 'refs';
+	    # Exporter does a similar job to the following
+	    # statement, but for function names, not
+	    # scalar variables:
+	    *{"${callpack}::$_"} = \$Config{ $_ };
+	} else {
+	    die "Error: Config: $_ not known\n";
+	}
+    }
+}
+
+1;

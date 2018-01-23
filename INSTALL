@@ -1,0 +1,65 @@
+snoStrip - by S.Canzler
+
+Release 2.0 (December 2017)
+
+########################################
+## 				      ##
+##  INSTALLATION MANUAL FOR SNOSTRIP  ##
+## 		       	   	      ##
+########################################
+
+
+Instruction for installation and configuration of "snoStrip" on Linux/Unix machines.
+
+########################################
+####################
+## REQUIRED PROGRAMS
+
+The snoStrip pipeline utilizes several open source programs for detection and property extraction of putative snoRNAs.
+Please ensure that the following programs are correctly installed:
+
+1) snoRNA detecttion:
+   
+   blastall         version 2.2.26 or newer
+   infernal 	    version 1.1 or newer
+
+   R		    version 3.0.1 or newer
+   R packages:	    genomeIntervals
+
+
+2) property extraction:
+   
+   MUSCLE	    version 3.7 or newer
+   RNAsubopt	    version 2.1.9 or newer
+
+   fastacmd 	    version 2.2.26 or newer
+   fastalength	    version 2.0.0 or newer
+
+
+
+
+
+
+########################################
+####################
+## CONFIGURATION OF SNOSTRIP
+
+Copy the whole SNOSTRIP folder into a directory of your choice.
+The configuration file, the snoStrip pipeline, all necessary packages, and additional
+scripts are located in the folder snoStrip.
+
+Please move into the snoStrip directory and start the configuration script by
+
+./configure.sh
+
+The configure.sh script will search for all necessary programs and additional scripts. 
+Several snoStrip scripts will be adapted to find the path required modules and
+the uploaded databases will be modified to incorporate the correct path information.
+
+Once the configuration process is finished, the snoStrip pipeline should work properly.
+
+
+
+
+Please have a look in the examples directory to see how the snoStrip pipeline is applied.
+

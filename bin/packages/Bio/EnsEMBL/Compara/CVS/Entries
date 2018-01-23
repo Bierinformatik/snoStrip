@@ -1,0 +1,27 @@
+/AlignSlice.pm/1.45.8.2/Thu Oct  2 11:30:39 2008//Tbranch-ensembl-50
+/AlignedMember.pm/1.11.10.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/Attribute.pm/1.13/Thu Feb  7 14:42:31 2008//Tbranch-ensembl-50
+/BaseRelation.pm/1.12/Mon Nov 26 18:27:47 2007//Tbranch-ensembl-50
+/Compara.conf.example/1.6/Tue Sep 14 10:30:43 2004//Tbranch-ensembl-50
+/ConservationScore.pm/1.9.30.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/DnaFrag.pm/1.23/Thu Mar 22 11:37:23 2007//Tbranch-ensembl-50
+/DnaFragRegion.pm/1.2.30.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/Domain.pm/1.2/Fri Oct  3 10:03:15 2003//Tbranch-ensembl-50
+/Family.pm/1.17/Thu Mar  6 10:11:06 2008//Tbranch-ensembl-50
+/GenomeDB.pm/1.56/Thu Feb 28 10:34:52 2008//Tbranch-ensembl-50
+/GenomicAlign.pm/1.55.14.5/Mon Nov 17 15:47:45 2008//Tbranch-ensembl-50
+/GenomicAlignBlock.pm/1.56.6.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/GenomicAlignGroup.pm/1.4.114.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/GenomicAlignTree.pm/1.5.8.3/Thu Oct  2 11:30:39 2008//Tbranch-ensembl-50
+/Homology.pm/1.35.14.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/Member.pm/1.40/Mon Mar 12 17:54:11 2007//Tbranch-ensembl-50
+/MethodLinkSpeciesSet.pm/1.10/Mon Mar 26 14:19:11 2007//Tbranch-ensembl-50
+/NCBITaxon.pm/1.16.16.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/NestedSet.pm/1.64.14.2/Thu Oct  2 11:30:49 2008//Tbranch-ensembl-50
+/PeptideAlignFeature.pm/1.25/Mon Mar 12 17:45:55 2007//Tbranch-ensembl-50
+/ProteinTree.pm/1.8.8.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/SitewiseOmega.pm/1.1.2.1/Tue Jul 22 16:11:18 2008//Tbranch-ensembl-50
+/Subset.pm/1.5/Thu Jul 14 15:05:39 2005//Tbranch-ensembl-50
+/SyntenyRegion.pm/1.9/Fri Jun  8 12:54:11 2007//Tbranch-ensembl-50
+/Taxon.pm/1.4/Tue Dec 13 16:47:20 2005//Tbranch-ensembl-50
+D

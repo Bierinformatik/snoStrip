@@ -1,0 +1,8 @@
+/DnaCollection.pm/1.2/Tue Mar  8 10:25:19 2005//Tbranch-ensembl-50
+/DnaFragChunk.pm/1.17.48.1/Tue Jul 22 16:11:19 2008//Tbranch-ensembl-50
+/DnaFragChunkSet.pm/1.6/Mon Oct 24 13:48:32 2005//Tbranch-ensembl-50
+/GeneSet.pm/1.2/Fri Dec  2 14:11:58 2005//Tbranch-ensembl-50
+/HomologySet.pm/1.5/Mon Jun 18 13:40:57 2007//Tbranch-ensembl-50
+D/DBSQL////
+D/EPOanchors////
+D/GenomicAlignBlock////
