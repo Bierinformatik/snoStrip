@@ -1,5 +1,6 @@
-# ignore data directory #
-#########################
+# ignore specific snoStrip files #
+##################################
+bin/packages/CONFIG.pm
 data/
 
 
