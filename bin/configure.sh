@@ -214,21 +214,6 @@ echo "\$CMCALIBRATE = \""$CMCALIBRATE"\";" >> $CONFIG
 
 
 
-## search for FASTALENGTH
-echo -n "search for fastalength ... "
-if test `command -v fastalength`; then
-    echo "found at "`command -v fastalength`
-    FASTALENGTH=`command -v fastalength`
-else
-    echo "not found"
-    echo -n "Please enter path to fastalength: "
-    read FASTALENGTH
-fi
-
-echo "\$FASTALENGTH = \""$FASTALENGTH"\";" >> $CONFIG
-
-
-
 ## search for fastacmd
 echo -n "search for fastacmd ... "
 if test `command -v fastacmd`; then
