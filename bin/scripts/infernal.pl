@@ -14,6 +14,7 @@ use warnings;
 use Getopt::Std;
 use makeMuscleAlignment;
 use CONFIG;
+use tools;
 
 
 my %opts;
@@ -26,7 +27,7 @@ getopts('e:d:i:m:r:w:g:t:k:n:shvb',\%opts);
 ####################################################################################################
 
 my ( $master, $id, $copy, $dir, $total, $wild );
-my ( $CMSEARCH, $CMCALIBRATE, $CMBUILD, $CMSTAT, $CMPATH, $STOCKHOLM, $FASTALENGTH, $FASTACMD );
+my ( $CMSEARCH, $CMCALIBRATE, $CMBUILD, $CMSTAT, $CMPATH, $STOCKHOLM, $FASTACMD );
 my ( @data, @files );          #array to store the given multifastafiles (just in case wildcard expressions are used)
 
 
@@ -41,7 +42,6 @@ $CMCALIBRATE = $CONFIG::CMCALIBRATE;
 $CMSTAT = $CONFIG::CMSTAT;
 
 $STOCKHOLM = $CONFIG::STOCKHOLM;
-$FASTALENGTH = $CONFIG::FASTALENGTH;
 $FASTACMD = $CONFIG::FASTACMD;
 
 my $data_path = abs_path($0);
@@ -524,47 +524,6 @@ sub find_CM_file
 
 
     return $found;
-
-}
-
-##########################################################################################
-sub calcBitScore_threshold
-## This method calculates a bitscore threshold in order to distinguish between
-## putative true homologs and false positives.
-## The bitscore reflects whether the sequence is a better match to the profile
-## model or to the null model. The latter one will be represented by a negative 
-## score. The rule of thumb, which will be applied here, states that a sequence
-## is likely to be a true homolog if the bitscore is above log_2 of the genome
-## size. Therein, the genome size is the double genome length, since both strands
-## have to be searched.
-## the genome size is calculated by each chromosome itself...???
-##########################################################################################
-{
-    
-    my ( $genome, $genomelength, $fastalength, $contig );
-
-    ( $genome, $contig ) = @_;
-    
-    $genomelength = 0;
-    
-    $fastalength = `$FASTALENGTH $genome | grep -P "$contig\$"`;
-    
-    my @tmp_fastalength = split( /\n/, $fastalength);
-
-    if( scalar @tmp_fastalength > 1 ){
-	foreach my $entry ( @tmp_fastalength ){
-	    if( $entry =~ /\s$contig$/ ) {
-		$fastalength = (split( /\s/, $entry ))[0];
-		last;
-	    }
-	}
-    }
-    else{ 
-	$fastalength = (split( /\s/, $fastalength ))[0];
-    }
-
-
-    return ( log($fastalength*2)/log(2) );
 
 }
 
