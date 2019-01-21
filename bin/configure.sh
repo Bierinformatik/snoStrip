@@ -4,6 +4,8 @@
 # Author: sebastian@vodka.bioinf.uni-leipzig.de
 # Date:   2013/09/03 08:41:11
 #
+# Changes: Jan Engelhardt, 21/1/19
+#
 
 # Globale Variablen
 SCRIPTNAME=$(basename $0 .sh)
