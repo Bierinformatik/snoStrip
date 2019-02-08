@@ -127,6 +127,19 @@ fi
 
 echo "\$RNASUBOPT = \""$RNASUBOPT"\";" >> $CONFIG
 
+## search for RNAeval
+echo -n "search for RNAeval ... "
+if test `command -v RNAeval`; then
+    echo "found at "`command -v RNAeval`
+    RNAEVAL=`command -v RNAeval`
+else
+    echo "not found"
+    echo -n "Please enter path to RNAeval: "
+    read RNAEVAL
+fi
+
+echo "\$RNAEVAL = \""$RNAEVAL"\";" >> $CONFIG
+
 
 ## search for cmsearch
 echo -n "search for cmsearch ... "
