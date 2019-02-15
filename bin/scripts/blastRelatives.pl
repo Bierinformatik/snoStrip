@@ -245,8 +245,7 @@ if( defined $opts{g} && defined($opts{w}) && defined($opts{k}) && (defined($opts
 	    else{
 		
 		#check if there are overlaps in blastoutput
-		#using christians cluster script
-		#filter all blasthits with score lower 60
+		#filter all blasthits with score lower 60  #JAN not done anymore?
 		
 		my $tmpb;
 		my @line;
@@ -274,8 +273,9 @@ if( defined $opts{g} && defined($opts{w}) && defined($opts{k}) && (defined($opts
 #		    print STDERR "number of families : ", $numberQueries,"\n";
 		}
 		
-		`$RSCRIPT $CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`;
-
+		#`$RSCRIPT $CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`; #JAN: Old clustering using R
+		`$CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`; #JAN: New clustering using R
+		
 		if( -e $opts{w}.$$."_blast.chn" ){
 		    $tmpblast = `cat $opts{w}$$\_blast.chn`;
 		}

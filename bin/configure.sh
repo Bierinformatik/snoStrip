@@ -244,28 +244,28 @@ echo -e "\$FASTACMD = \""$FASTACMD"\";\n" >> $CONFIG
 
 
 ## search for Rscript
-echo -n "search for Rscript ... "
-if test `command -v Rscript`; then
-    echo "found at "`command -v Rscript`
-    RSCRIPT=`command -v Rscript`
-else
-    echo "not found"
-    echo -n "Please enter path to Rscript: "
-    read RSCRIPT
-fi
+###echo -n "search for Rscript ... "
+###if test `command -v Rscript`; then
+###    echo "found at "`command -v Rscript`
+###    RSCRIPT=`command -v Rscript`
+###else
+###    echo "not found"
+###    echo -n "Please enter path to Rscript: "
+###    read RSCRIPT
+###fi
 
-echo -e "\$RSCRIPT = \""$RSCRIPT"\";" >> $CONFIG
+###echo -e "\$RSCRIPT = \""$RSCRIPT"\";" >> $CONFIG
 
 
 ## search for necessary R packages
-echo -n "search for necessary R package 'genomeIntervals' ... "
-MESSAGE=`$RSCRIPT $WRK_DIR\scripts/check_R_packages.R genomeIntervals`
-if test "$MESSAGE" == "package found"; then
-    echo "found"
-else
-    echo "ERROR: PACKAGE 'genomeIntervals' not found"
-    exit $EXIT_ERROR
-fi
+###echo -n "search for necessary R package 'genomeIntervals' ... "
+###MESSAGE=`$RSCRIPT $WRK_DIR\scripts/check_R_packages.R genomeIntervals`
+###if test "$MESSAGE" == "package found"; then
+###    echo "found"
+###else
+###    echo "ERROR: PACKAGE 'genomeIntervals' not found"
+###    exit $EXIT_ERROR
+###fi
 
 
 
@@ -292,7 +292,7 @@ STK=$WRK_DIR"scripts/stockholm.pl"
 echo "\$STOCKHOLM = \""$STK"\";" >> $CONFIG
 
 ## search for CLUSTER
-CLUSTER=$WRK_DIR"scripts/clusterChains.R"
+CLUSTER=$WRK_DIR"scripts/clusterChains.pl"
 echo "\$CLUSTER = \""$CLUSTER"\";" >> $CONFIG
 
 ## search for SVM
