@@ -27,6 +27,8 @@ sub get_abbreviation_Gepithet
    
     ## try to grep the corresponding line to our current organism
     ## within the information file
+    #Jan (change what is give back, not the abrev?
+    print "grep -P $genus $epithet $information_file\n";
     $grep = qx(grep -P "$genus\[a-z\]*_$epithet" $information_file | cut -f 3);
 
     chomp $grep;

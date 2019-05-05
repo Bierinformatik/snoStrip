@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 use Cwd 'abs_path';
 
@@ -245,8 +245,7 @@ if( defined $opts{g} && defined($opts{w}) && defined($opts{k}) && (defined($opts
 	    else{
 		
 		#check if there are overlaps in blastoutput
-		#using christians cluster script
-		#filter all blasthits with score lower 60
+		#filter all blasthits with score lower 60  #JAN not done anymore?
 		
 		my $tmpb;
 		my @line;
@@ -274,8 +273,9 @@ if( defined $opts{g} && defined($opts{w}) && defined($opts{k}) && (defined($opts
 #		    print STDERR "number of families : ", $numberQueries,"\n";
 		}
 		
-		`$RSCRIPT $CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`;
-
+		#`$RSCRIPT $CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`; #JAN: Old clustering using R
+		`$CLUSTER $opts{w}$$\_blast.out $opts{w}$$\_blast.chn 2> /dev/null`; #JAN: New clustering using R
+		
 		if( -e $opts{w}.$$."_blast.chn" ){
 		    $tmpblast = `cat $opts{w}$$\_blast.chn`;
 		}
@@ -315,11 +315,13 @@ if( defined $opts{g} && defined($opts{w}) && defined($opts{k}) && (defined($opts
 			my $ref;
 			my @tmpFound = split( /_/, $hits[$j]->[0] );
 
-
+			#JAN print "blastRel\t$tmpFound[-1]\n";
+			
 			#save general blasthit-information
 			$ref->{database} = $hits[$j]->[-1];
 			$ref->{query_org} = $species;
-			$ref->{found_with} = &get_abbreviation_Gepithet($tmpFound[-1], $opts{f} )."_".$tmpFound[0]."_".$tmpFound[1];
+			#JAN $ref->{found_with} = &get_abbreviation_Gepithet($tmpFound[-1], $opts{f} )."_".$tmpFound[0]."_".$tmpFound[1];
+			$ref->{found_with} = $tmpFound[-1]."_".$tmpFound[0]."_".$tmpFound[1];
 			if( $ref->{found_with} =~ /^_/){
 			    print STDERR "WARNING: $tmpFound[-1] is not found in the information file!\n";
 			}

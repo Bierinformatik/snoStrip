@@ -4,6 +4,8 @@
 # Author: sebastian@vodka.bioinf.uni-leipzig.de
 # Date:   2013/09/03 08:41:11
 #
+# Changes: Jan Engelhardt, 21/1/19
+#
 
 # Globale Variablen
 SCRIPTNAME=$(basename $0 .sh)
@@ -125,6 +127,19 @@ fi
 
 echo "\$RNASUBOPT = \""$RNASUBOPT"\";" >> $CONFIG
 
+## search for RNAeval
+echo -n "search for RNAeval ... "
+if test `command -v RNAeval`; then
+    echo "found at "`command -v RNAeval`
+    RNAEVAL=`command -v RNAeval`
+else
+    echo "not found"
+    echo -n "Please enter path to RNAeval: "
+    read RNAEVAL
+fi
+
+echo "\$RNAEVAL = \""$RNAEVAL"\";" >> $CONFIG
+
 
 ## search for cmsearch
 echo -n "search for cmsearch ... "
@@ -229,28 +244,28 @@ echo -e "\$FASTACMD = \""$FASTACMD"\";\n" >> $CONFIG
 
 
 ## search for Rscript
-echo -n "search for Rscript ... "
-if test `command -v Rscript`; then
-    echo "found at "`command -v Rscript`
-    RSCRIPT=`command -v Rscript`
-else
-    echo "not found"
-    echo -n "Please enter path to Rscript: "
-    read RSCRIPT
-fi
+###echo -n "search for Rscript ... "
+###if test `command -v Rscript`; then
+###    echo "found at "`command -v Rscript`
+###    RSCRIPT=`command -v Rscript`
+###else
+###    echo "not found"
+###    echo -n "Please enter path to Rscript: "
+###    read RSCRIPT
+###fi
 
-echo -e "\$RSCRIPT = \""$RSCRIPT"\";" >> $CONFIG
+###echo -e "\$RSCRIPT = \""$RSCRIPT"\";" >> $CONFIG
 
 
 ## search for necessary R packages
-echo -n "search for necessary R package 'genomeIntervals' ... "
-MESSAGE=`$RSCRIPT $WRK_DIR\scripts/check_R_packages.R genomeIntervals`
-if test "$MESSAGE" == "package found"; then
-    echo "found"
-else
-    echo "ERROR: PACKAGE 'genomeIntervals' not found"
-    exit $EXIT_ERROR
-fi
+###echo -n "search for necessary R package 'genomeIntervals' ... "
+###MESSAGE=`$RSCRIPT $WRK_DIR\scripts/check_R_packages.R genomeIntervals`
+###if test "$MESSAGE" == "package found"; then
+###    echo "found"
+###else
+###    echo "ERROR: PACKAGE 'genomeIntervals' not found"
+###    exit $EXIT_ERROR
+###fi
 
 
 
@@ -277,7 +292,7 @@ STK=$WRK_DIR"scripts/stockholm.pl"
 echo "\$STOCKHOLM = \""$STK"\";" >> $CONFIG
 
 ## search for CLUSTER
-CLUSTER=$WRK_DIR"scripts/clusterChains.R"
+CLUSTER=$WRK_DIR"scripts/clusterChains.pl"
 echo "\$CLUSTER = \""$CLUSTER"\";" >> $CONFIG
 
 ## search for SVM

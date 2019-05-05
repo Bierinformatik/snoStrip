@@ -39,15 +39,27 @@ sub createBoxProfiles
     #length describes the boxlength which has to be the same for box1 and box2 in the whole multifasta file
     #which means that it is not allowed that a c-box consists of 6nt in one sequence and of 7nt in another sequence in one multifasta file
     my @keys = keys %{$Ref};
+    
+
+    ###JAN Changed because it can become bad infinity-loop
+    ###    Function of the while and $k is unclear???
+    ###OLD:
     my $k = 0;
 
-    while( 1 ){
-	$boxA = $$Ref{$keys[$k]}->{box1Prime};
-	$boxB = $$Ref{$keys[$k]}->{box2Prime};
-	last if $boxA;
-	$k++;
+    #print "createBoxProfiles ",scalar(@keys),"\n"; #jan
+    
+    while( $k<scalar(@keys)){
+    	$boxA = $$Ref{$keys[$k]}->{box1Prime};
+    	$boxB = $$Ref{$keys[$k]}->{box2Prime};
+    	last if $boxA;
+    	$k++;
     }
-
+    
+    unless(defined($boxA)){
+	print STDERR "Problem with prime boxes\n";
+	exit(0);
+    }
+    
     ( $length1, $length2 ) = ( length($boxA) - 1, length($boxB) - 1 );
   
 

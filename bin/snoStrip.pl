@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 
 use Cwd 'abs_path';
@@ -144,7 +144,9 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 
     
     ## combine the original information file with the user given file of organism information that should be analyzed with snostrip
-    `cp $INFO_FILE $opts_d$$"_tmp/"$$"_"$opts_k".csv"`;
+    ###
+    #Jan: Don't do this always, make it an option
+    ###`cp $INFO_FILE $opts_d$$"_tmp/"$$"_"$opts_k".csv"`;
     if ($opts_i){
       `cat $opts_i >> $opts_d$$"_tmp/"$$"_"$opts_k".csv"`;
     }
@@ -372,6 +374,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 		    $foundPrime = 0;
 		    
 		    if( $hit ne '' ){
+			#print "Hit: $hit"; #JAN
 			@tmp = split( /\n/,$hit );
 			$res->{bla} = $tmp[0];
 			$res->{genome} = $genome_information{$genome}->{genomefile};
@@ -386,11 +389,14 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 
 
 			if( $res->{bla} =~ /__/){
+			    ###JAN Changed the annotation of query organisms, information file is not used anymore
+			    ###JAN Are there any bad consequences?
 			    print STDERR "\n\nERROR: One of the query organisms is not specified in the information file!\n";
 			    exit(0)
 			}
 			
 			if( $opts_b_blast ){
+			    #print "res-bla: ",$res->{bla},"\n"; #JAN
 			    $res->{bla} =~ /^([^_]+)_([^_]+)_([\w].[^_]+)_\(([^\)]+)\)_([^_]+)_([^_])_([^_]+)_([^_]+)_([^_]+)_([\w].[^_]+)/;
 			    $res->{name} = $1."_".$2;
 			    ( $res->{family} = $1 . "_" . $2 ) =~ s/\-.*//;
@@ -637,6 +643,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 				open ( OUT, ">>$locations{tmpPath}$locations{dat}" ) or die $!;
 				print OUT ">".$res->{bla}."\n".$res->{seq}."\n";
 				close OUT;
+
 				
 				( $res->{boxA}, $res->{startA}, $res->{boxB}, $res->{startB}, $found, $offset, $message_box_search, $scoreA, $scoreB, $penaltyA, $penaltyB ) = boxSearch_pairwise( $locations{tmpPath}.$locations{dat}, \%seqProperties, $res, $opts_v, $key_query );
 
@@ -684,7 +691,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 				    open ( OUT, ">>$locations{tmpPath}$locations{dat}" ) or die $!;
 				    print OUT ">".$res->{bla}."\n".$res->{seq}."\n";
 				    close OUT;
-				    
+
 				    ( $res->{boxAPrime}, $res->{startAPrime}, $res->{boxBPrime}, $res->{startBPrime}, $foundPrime, $statistics_hash{scoreAprimeBox}, $statistics_hash{scoreBprimeBox}, $statistics_hash{penaltyAprimeBox}, $statistics_hash{penaltyBprimeBox} ) = primeBoxSearch_pairwise( $locations{tmpPath}.$locations{dat}, \%seqProperties, $res, $offset, $opts_v, $key_query );
 				    
 				    ## in case a suitable D' box was found
@@ -855,8 +862,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 			    $tmporg =~ s/\./_/;
 
 			    if( $res->{type} eq "CD" ){
-
-				($res->{folding}, $res->{mfe}) = getFoldingCD($res->{seq}, $res->{startA}, ($res->{startB}+length($res->{boxB})) );
+				($res->{folding}, $res->{mfe}) = getFoldingCD($res->{seq}, $res->{startA}, ($res->{startB}+length($res->{boxB})),$locations{tmpPath} );
 				
 				$res->{length} = length($res->{seq});
 				&cutFolding($res);
@@ -918,8 +924,8 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 
 				&cutFoldingHACA( $res );
 
-				( $res->{folding}, $res->{mfe} ) = getFoldingHACA( $res->{seq}, $res->{box_cons} ) ;
-				( $res->{alternative_folding}, $res->{alternative_mfe}, $statistics_hash{mfe_HP1}, $statistics_hash{mfe_HP2}, $statistics_hash{length_HP1}, $statistics_hash{length_HP2}) = getIndependentFoldingHACA( $res->{seq}, $res->{box_cons}, $res->{startA}, $res->{startB} ) ;
+				( $res->{folding}, $res->{mfe} ) = getFoldingHACA( $res->{seq}, $res->{box_cons} , $locations{tmpPath}) ;
+				( $res->{alternative_folding}, $res->{alternative_mfe}, $statistics_hash{mfe_HP1}, $statistics_hash{mfe_HP2}, $statistics_hash{length_HP1}, $statistics_hash{length_HP2}) = getIndependentFoldingHACA( $res->{seq}, $res->{box_cons}, $res->{startA}, $res->{startB} ,$locations{tmpPath}) ;
 
 
 				if( $res->{mfe} =~ /hairpin|strange/ ){ print STDERR "atypical structure found.\n" if !$opts_v }
@@ -1146,7 +1152,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 			    ## analze structure of snoRNAs that were removed previously
 			    if( $res->{type} eq "CD" ){
 				if ( $res->{penaltyA} <= 1 && $res->{penaltyB} <= 1 ){ 
-				    ($res->{folding}, $res->{mfe}) = getFoldingCD($res->{seq}, $res->{startA}, ($res->{startB}+length($res->{boxB})) );
+				    ($res->{folding}, $res->{mfe}) = getFoldingCD($res->{seq}, $res->{startA}, ($res->{startB}+length($res->{boxB})) ,$locations{tmpPath});
 				    $res->{length} = length($res->{seq});
 				    $res->{mfe} eq "atypical structure" ? $statistics_hash{mfe} = -1 : $statistics_hash{mfe} = $res->{mfe};
 				}
@@ -1159,7 +1165,7 @@ if( $passed ){ #search for homologs in this genome (based on snoBoard-data)
 			    else{
 
 				&cutFoldingHACA( $res );
-				( $res->{alternative_folding}, $res->{alternative_mfe}, $statistics_hash{mfe_HP1}, $statistics_hash{mfe_HP2}, $statistics_hash{length_HP1}, $statistics_hash{length_HP2}) = getIndependentFoldingHACA( $res->{seq}, $res->{box_cons}, $res->{startA}, $res->{startB} ) ;
+				( $res->{alternative_folding}, $res->{alternative_mfe}, $statistics_hash{mfe_HP1}, $statistics_hash{mfe_HP2}, $statistics_hash{length_HP1}, $statistics_hash{length_HP2}) = getIndependentFoldingHACA( $res->{seq}, $res->{box_cons}, $res->{startA}, $res->{startB} ,$locations{tmpPath}) ;
 
 
 			    }
@@ -1465,6 +1471,7 @@ sub readMultiFasta
     my ( $keyRef, $tmpRef, $head, $seq, $boxes );
     my @tmp;
 
+    #print "location: ",$locations{mf},"\n"; #JAN
 
     open ( MF, $locations{mf} ) or die $!;
  
@@ -1494,10 +1501,13 @@ sub readMultiFasta
 		$key{box2Start} = $tmp[-1];
 		if($tmp[-5] =~ /^\d+$/ && $tmp[-6] =~ /[GTACU]{4}/){
 		    $key{box1Prime} = $tmp[-8];
+		    #print "readMultiFasta box1Prime: ",$key{box1Prime},"\n"; #JAN
 		    $key{box1PrimeStart} = $tmp[-7];
 		    $key{box2Prime} = $tmp[-6];
 		    $key{box2PrimeStart}= $tmp[-5];
 		    $hasPrimeBox = 1;
+		}else{
+		    $hasPrimeBox = 0; #JAN Possible fix for CD_33 problem
 		}
 	    }
 
@@ -1600,10 +1610,12 @@ sub readMultiFasta
     }
     
     close MF;
+
+    my @tmpkeys = keys %seqProperties;
+    #print "seqProperties: ",scalar(@tmpkeys),"\n"; #JAN
     return \%seqProperties;
     
 }
-
 
 
 ####################################################################################################
@@ -1867,11 +1879,13 @@ sub setConstants
 ####################################################################################################
 {
 
+    #JAN: Make it relative not absolute
     my $abs_path = abs_path($0);
     $abs_path =~ s/snoStrip.pl//;
     my $data_path = $abs_path;
     $data_path =~ s/bin/data/;
-  
+    #my $data_path = ""; #Workaround todo
+	
     $STOCKHOLM = $CONFIG::STOCKHOLM;
     $MUSCLE = $CONFIG::MUSCLE;
     $INFERNAL = $CONFIG::INFERNAL;
@@ -1965,7 +1979,7 @@ sub checkOptions
     }
 
     if ( !-w $opts_d ){
-	return ( 0, "You're not permitted to write in the given directory!" );
+#	return ( 0, "You're not permitted to write in the given directory!" );  #JAN: strange problem on k43? problem perl versions...
     }
     
     
