@@ -18,18 +18,12 @@ Please ensure that the following programs are correctly installed:
    * blastall		version 2.2.26 or newer
    * infernal		version 1.1 or newer
 
-   * R			version 3.0.1 or newer
-   * R packages:	genomeIntervals
-
-
 2) property extraction:
    
    * MUSCLE		version 3.7 or newer
    * RNAsubopt		version 2.1.9 or newer
 
    * fastacmd		version 2.2.26 or newer
-   * fastalength	version 2.0.0 or newer
-
 
 ### CONFIGURATION OF SNOSTRIP
 
